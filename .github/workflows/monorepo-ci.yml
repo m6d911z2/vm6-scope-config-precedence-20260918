@@ -1,0 +1,43 @@
+name: VM6 Scope Config Precedence CI
+on:
+  pull_request:
+
+jobs:
+  detect-scopes:
+    runs-on: ubuntu-24.04
+    outputs:
+      critical: ${{ fromJSON(steps.scopes.outputs.scopes).critical }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Detect scopes
+        id: scopes
+        uses: Mergifyio/gha-mergify-ci@v25
+        with:
+          action: scopes
+          mergify_cli_version: 2026.9.16.1
+
+  critical-tests:
+    needs: detect-scopes
+    if: ${{ needs.detect-scopes.outputs.critical == 'true' }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Controlled critical failure
+        run: |
+          echo 'VM6 trusted critical test executed'
+          exit 1
+
+  ci-gate:
+    if: ${{ !cancelled() }}
+    needs:
+      - detect-scopes
+      - critical-tests
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Aggregate CI
+        uses: Mergifyio/gha-mergify-ci@v25
+        with:
+          action: wait-jobs
+          mergify_cli_version: 2026.9.16.1
+          jobs: ${{ toJSON(needs) }}
