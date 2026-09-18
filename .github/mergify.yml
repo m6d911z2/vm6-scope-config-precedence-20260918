@@ -1,7 +1,23 @@
-pull_request_rules: []
-scopes:
-  source:
-    files:
-      critical:
-        include:
-          - 'critical/**'
+pull_request_rules:
+  - name: VM6 EXT PRECEDENCE FALLBACK A P14F1
+    conditions:
+      - title = VM6 extends source precedence freshness P14F1
+    actions:
+      comment:
+        message: VM6_EXT_PRECEDENCE_FALLBACK_A
+commands_restrictions:
+  queue:
+    conditions:
+      - sender-permission >= write
+merge_queue:
+  mode: serial
+  max_parallel_checks: 1
+queue_rules:
+  - name: default
+    batch_size: 1
+    queue_conditions: []
+    merge_conditions:
+      - check-success = @github-actions/vm6-synthetic-head-delay
+    max_checks_retries: 0
+    merge_method: merge
+    checks_timeout: null
