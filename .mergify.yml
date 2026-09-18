@@ -1,0 +1,24 @@
+pull_request_rules:
+  - name: VM6 EXT PRECEDENCE ROOT B P14F1
+    conditions:
+      - title = VM6 extends source precedence freshness P14F1
+      - label = vm6-ext-precedence-security-p14f1
+    actions:
+      comment:
+        message: VM6_EXT_PRECEDENCE_ROOT_B
+commands_restrictions:
+  queue:
+    conditions:
+      - sender-permission >= write
+merge_queue:
+  mode: serial
+  max_parallel_checks: 1
+queue_rules:
+  - name: default
+    batch_size: 1
+    queue_conditions: []
+    merge_conditions:
+      - check-success = @github-actions/vm6-synthetic-head-delay
+    max_checks_retries: 0
+    merge_method: merge
+    checks_timeout: null
