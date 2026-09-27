@@ -1,0 +1,7 @@
+pull_request_rules: []
+scopes:
+  source:
+    files:
+      high:
+        include:
+          - 'high/**'
