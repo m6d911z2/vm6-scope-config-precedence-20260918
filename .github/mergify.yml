@@ -5,3 +5,14 @@ scopes:
       critical:
         include:
           - 'critical/**'
+
+merge_protections:
+  - name: VM6 MP product OFF inflight clean 20260929
+    if:
+      - number = 3
+    success_conditions:
+      - base = main
+      - check-success = @github-actions/vm6-mp-productoff-delay
+merge_protections_settings:
+  reporting_method: check-runs
+  post_comment: true
