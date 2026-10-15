@@ -1,11 +1,18 @@
-pull_request_rules: []
+pull_request_rules:
+  - name: VM6 controlled untrusted-title substitution probe 261015
+    conditions:
+      - base = main
+      - author = livastic-vm6-primary-20260911
+      - title ~= ^VM6_SAFE_TEMPLATE_SUBSTITUTION_261015
+    actions:
+      comment:
+        message: 'VM6_TEMPLATE_RESULT_261015: {{ title }}'
 scopes:
   source:
     files:
       critical:
         include:
           - 'critical/**'
-
 merge_protections:
   - name: VM6 MP product OFF inflight clean 20260929
     if:
