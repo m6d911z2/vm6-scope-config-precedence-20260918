@@ -1,14 +1,4 @@
-pull_request_rules:
-  - name: VM6 Job Selection Protected Writer 261015
-    conditions:
-      - base = vm6-jobsel-protected-261015
-      - title = VM6_JOBSEL_REQUIRED_261015
-      - author = livastic-vm6-primary-20260911
-      - check-success = @github-actions/ci-gate
-    actions:
-      merge:
-        method: merge
-
+pull_request_rules: []
 scopes:
   source:
     files:
